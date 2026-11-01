@@ -153,15 +153,17 @@
     a.style.setProperty("--deck-text", s.text);
     a.style.setProperty("--deck-icon", s.icon);
 
+    var isLink = /^https?:\/\//.test(s.file);   // e.g. a Prezi, rather than a PDF on this site
     a.addEventListener("click", function (e) {
-      // Phones and tablets can't show PDFs inside a page, so they open the file directly.
-      if (window.matchMedia("(max-width: 760px), (pointer: coarse)").matches) return;
+      // Prezi pages open in their own tab (they don't display cleanly inside another site).
+      // Phones and tablets can't show PDFs inside a page, so PDFs open directly there too.
+      if (isLink || window.matchMedia("(max-width: 760px), (pointer: coarse)").matches) return;
       e.preventDefault();
       openSlides(s.file, titleText, a);
     });
 
-    // When served from a web host, check the PDF exists; if not, show "Slides coming soon".
-    if (/^https?:$/.test(location.protocol) && window.fetch) {
+    // When served from a web host, check a slide PDF exists; if not, show "Slides coming soon".
+    if (!isLink && /^https?:$/.test(location.protocol) && window.fetch) {
       fetch(s.file, { method: "HEAD" }).then(function (res) {
         if (!res.ok) a.replaceWith(el("span", { "class": "btn btn--sm btn--secondary", "aria-disabled": "true" }, "Slides coming soon"));
       }).catch(function () {});
