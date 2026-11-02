@@ -68,7 +68,7 @@ var LESSONS = [
     slides: { file: "https://prezi.com/page/gjD7wrZBPe5PtXd5uXfJDk/asking-for-a-raise-by-email/", bg: "#2E1A3B", text: "#FBF6F1", icon: "#E39A5B" },
     downloads: [
       { label: "Lesson plan", file: "assets/docs/Lesson-Plan-Email.pdf" },
-      { label: "Job cards and planning sheet", file: "assets/docs/Lesson-Plan-Email.pdf#page=11" }
+      { label: "Job cards and planning sheet", file: "assets/docs/Job-Cards-Planning-Sheet-Email.pdf" }
     ]
   }
 ];
