@@ -27,6 +27,37 @@
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
+  /* ---------- Back-to-top button (appears after scrolling; ring shows progress) ---------- */
+  var toTop = document.createElement("button");
+  toTop.type = "button";
+  toTop.className = "to-top";
+  toTop.setAttribute("aria-label", "Back to top");
+  toTop.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>';
+  document.body.appendChild(toTop);
+  var onScrollTop = function () {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    toTop.classList.toggle("is-visible", window.scrollY > 400);
+    toTop.style.setProperty("--p", (max > 0 ? Math.min(100, window.scrollY / max * 100) : 0) + "%");
+  };
+  onScrollTop();
+  window.addEventListener("scroll", onScrollTop, { passive: true });
+  toTop.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    var target = document.querySelector(".brand") || document.querySelector("a, button");
+    if (target) target.focus({ preventScroll: true });
+  });
+
+  /* ---------- Interactive motion (skipped entirely for reduced motion) ---------- */
+  if (!reduceMotion) {
+    document.querySelectorAll(".marquee__row").forEach(function (row) {
+      var track = row.querySelector(".marquee__track");
+      if (track) row.appendChild(track.cloneNode(true));
+    });
+    initParallax();
+    initCursorPill();
+    initPageFade();
+  }
+
   /* ---------- Mobile navigation ---------- */
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.getElementById("site-nav");
@@ -79,6 +110,22 @@
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
     revealEls.forEach(function (el) { io.observe(el); });
+
+    /* Labels flicker into place; numbers count up when they come into view */
+    var onceSeen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        onceSeen.unobserve(entry.target);
+        if (entry.target.classList.contains("eyebrow")) scramble(entry.target);
+        else countUp(entry.target);
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll(".eyebrow").forEach(function (el) {
+      if (!el.children.length) onceSeen.observe(el);
+    });
+    document.querySelectorAll(".glance__value").forEach(function (el) {
+      if (/^\d/.test(el.textContent)) onceSeen.observe(el);
+    });
   }
 
   /* ---------- Booking calendar (Contact page) ---------- */
@@ -97,6 +144,92 @@
   }
 
   function stripTags(s) { return s.replace(/<[^>]*>/g, ""); }
+
+  /* Scrambles a label through random letters before settling on the real text */
+  function scramble(node) {
+    var text = node.textContent, chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ·+*", frame = 0, total = 18;
+    var tick = function () {
+      var shown = Math.floor(frame / total * text.length);
+      node.textContent = text.split("").map(function (c, k) {
+        return k < shown || c === " " ? c : chars[Math.floor(Math.random() * chars.length)];
+      }).join("");
+      if (frame++ < total) requestAnimationFrame(tick); else node.textContent = text;
+    };
+    tick();
+  }
+
+  /* Counts the leading number of "4+ years" up from zero */
+  function countUp(node) {
+    var m = node.textContent.match(/^(\d+)(.*)$/);
+    if (!m) return;
+    var end = parseInt(m[1], 10), rest = m[2], start = null;
+    var step = function (t) {
+      if (start === null) start = t;
+      var p = Math.min(1, (t - start) / 1200);
+      node.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + rest;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  /* Elements with data-parallax drift at their own speed while scrolling */
+  function initParallax() {
+    var items = document.querySelectorAll("[data-parallax]");
+    if (!items.length) return;
+    var queued = false;
+    var update = function () {
+      queued = false;
+      var mid = window.innerHeight / 2;
+      items.forEach(function (node) {
+        var r = node.getBoundingClientRect();
+        var d = (r.top + r.height / 2 - mid) * parseFloat(node.getAttribute("data-parallax"));
+        node.style.translate = "0 " + d.toFixed(1) + "px";
+      });
+    };
+    window.addEventListener("scroll", function () { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  }
+
+  /* A "View" bubble follows the mouse over clickable cards (mouse users only) */
+  function initCursorPill() {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    var pill = el("div", { "class": "cursor-pill", "aria-hidden": "true" });
+    document.body.appendChild(pill);
+    var x = 0, y = 0, px = 0, py = 0, running = false;
+    var move = function () {
+      px += (x - px) * 0.2; py += (y - py) * 0.2;
+      pill.style.transform = "translate(" + (px + 16) + "px," + (py + 16) + "px)";
+      if (Math.abs(x - px) > 0.5 || Math.abs(y - py) > 0.5) requestAnimationFrame(move); else running = false;
+    };
+    document.addEventListener("mousemove", function (e) {
+      x = e.clientX; y = e.clientY;
+      var target = e.target.closest("a.card, a.work-card, a.work-tile, [data-cursor]");
+      if (target && !e.target.closest(".btn")) {
+        pill.textContent = target.getAttribute("data-cursor") || (target.target === "_blank" ? "Open ↗" : "View →");
+        if (!pill.classList.contains("is-on")) { px = x; py = y; }
+        pill.classList.add("is-on");
+      } else {
+        pill.classList.remove("is-on");
+      }
+      if (!running) { running = true; requestAnimationFrame(move); }
+    });
+  }
+
+  /* Fades the page out before following a link to another page on this site */
+  function initPageFade() {
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest("a[href]");
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (a.target === "_blank" || a.hasAttribute("download")) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || /\.(pdf|jpe?g|png|webp|docx?)$/i.test(url.pathname)) return;
+      if (url.pathname === location.pathname && url.hash) return;
+      e.preventDefault();
+      document.body.classList.add("is-leaving");
+      setTimeout(function () { location.href = url.href; }, 220);
+    });
+    window.addEventListener("pageshow", function () { document.body.classList.remove("is-leaving"); });
+  }
 
   function renderLessons(grid, lessons) {
     grid.innerHTML = "";
