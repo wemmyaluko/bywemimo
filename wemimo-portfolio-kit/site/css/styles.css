@@ -1530,7 +1530,7 @@ h1, h2, h3, .serif { letter-spacing: -0.005em; }
 /* ---------- Photos: Option B, "editorial accent" ---------- */
 /* Every photo: crisp rounded corners and a soft shadow */
 .photo {
-  border-radius: 16px;
+  border-radius: var(--radius-photo);
   background: var(--tan-mid);
   box-shadow: 0 12px 28px rgba(28, 21, 18, 0.12);
 }
@@ -1713,7 +1713,7 @@ h1, h2, h3 { color: var(--head); }
 .card-grid > *, .promise-list > *, .session-grid > * { --card-c: var(--brown); --card-soft: var(--terracotta-soft); }
 .card-grid > :nth-child(4n+2), .promise-list > :nth-child(4n+2), .session-grid > :nth-child(4n+2) { --card-c: var(--teal); --card-soft: var(--teal-soft); }
 .card-grid > :nth-child(4n+3), .promise-list > :nth-child(4n+3), .session-grid > :nth-child(4n+3) { --card-c: var(--berry); --card-soft: var(--berry-soft); }
-.card-grid > :nth-child(4n+4), .promise-list > :nth-child(4n+4), .session-grid > :nth-child(4n+4) { --card-c: #B07A0C; --card-soft: var(--gold-soft); }
+.card-grid > :nth-child(4n+4), .promise-list > :nth-child(4n+4), .session-grid > :nth-child(4n+4) { --card-c: var(--gold-text); --card-soft: var(--gold-soft); }
 .card-grid .icon-tile { background: var(--card-c); transition: transform 0.3s var(--ease); }
 .card:hover .icon-tile { transform: rotate(-8deg) scale(1.08); }
 
@@ -1837,7 +1837,7 @@ h1, h2, h3 { color: var(--head); }
 .work-tile { display: flex; flex-direction: column; gap: 14px; color: var(--brown-dark); text-decoration: none; }
 .work-tile:hover { color: var(--brown-dark); }
 .work-tile__media {
-  position: relative; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden;
+  position: relative; aspect-ratio: 16 / 10; border-radius: var(--radius-card); overflow: hidden;
   background: var(--tan-mid); box-shadow: var(--shadow-soft);
 }
 .work-tile__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
@@ -1883,11 +1883,11 @@ h1, h2, h3 { color: var(--head); }
 .service-row:hover .service-row__arrow { color: #FFFFFF; transform: rotate(45deg); }
 .service-row:nth-child(2) { --row-c: var(--teal); }
 .service-row:nth-child(3) { --row-c: var(--berry); }
-.service-row:nth-child(4) { --row-c: #B07A0C; }
+.service-row:nth-child(4) { --row-c: var(--gold-text); }
 
 /* Numbers */
 .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-.stat-card { padding: 28px; border-radius: 22px; background: var(--cream-light); border: 1px solid var(--border); border-top: 5px solid var(--stat-c, var(--brown)); }
+.stat-card { padding: 28px; border-radius: var(--radius-card); background: var(--cream-light); border: 1px solid var(--border); border-top: 5px solid var(--stat-c, var(--brown)); }
 .stat-card:nth-child(2) { --stat-c: var(--teal); }
 .stat-card:nth-child(3) { --stat-c: var(--berry); }
 .stat-card .glance__value { color: var(--stat-c, var(--brown)); font-size: clamp(40px, 5vw, 56px); }
@@ -1938,6 +1938,44 @@ h1, h2, h3 { color: var(--head); }
   .marquee__row { animation: none; }
   .cursor-pill { display: none; }
 }
+
+/* ==========================================================================
+   Design polish: readable colors, one shape language, refined type
+   ========================================================================== */
+
+:root {
+  --teal: #1F6B66;          /* deep enough for small text on cream (5.5:1) */
+  --gold-text: #8A5E07;     /* gold for text; --gold stays for shapes */
+  --radius-card: 20px;      /* every card, tile, panel, and photo */
+  --radius-card-sm: 20px;
+  --radius-panel: 20px;
+  --radius-photo: 20px;
+  --radius-icon: 12px;
+}
+
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+h1, h2, h3, .big-title, .home-cta__title { text-wrap: balance; }
+p, li, dd { text-wrap: pretty; }
+::selection { background: var(--gold-soft); color: var(--head); }
+
+/* Comfortable reading width for long text */
+.article__inner p, .article__inner li, .philosophy p, .split__text p, .featured__text p, .observation__text p { max-width: 68ch; }
+
+/* Buttons press in slightly when clicked */
+.btn:active { transform: translateY(0) scale(0.98); }
+
+/* Current page in the menu: one underline, darker text */
+.nav-list a[aria-current]:not(.nav-cta) { text-decoration: none; color: var(--head); }
+.nav-list a[aria-current]:not(.nav-cta)::after { transform: scaleX(1); }
+
+/* Text colors with enough contrast */
+.home-statement { color: #7A675C; }
+.home-cta__title span { color: #978377; }
+.band-sand .text-link { color: var(--brown-hover); }
+
+/* Larger tap areas for footer links */
+.footer-col { gap: 2px; }
+.footer-col a { padding: 6px 0; }
 
 /* ==========================================================================
    Motion
