@@ -47,16 +47,8 @@
     if (target) target.focus({ preventScroll: true });
   });
 
-  /* ---------- Interactive motion (skipped entirely for reduced motion) ---------- */
-  if (!reduceMotion) {
-    document.querySelectorAll(".marquee__row").forEach(function (row) {
-      var track = row.querySelector(".marquee__track");
-      if (track) row.appendChild(track.cloneNode(true));
-    });
-    initParallax();
-    initCursorPill();
-    initPageFade();
-  }
+  /* ---------- Page fades (skipped for reduced motion) ---------- */
+  if (!reduceMotion) initPageFade();
 
   /* ---------- Mobile navigation ---------- */
   var toggle = document.querySelector(".nav-toggle");
@@ -170,49 +162,6 @@
       if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
-  }
-
-  /* Elements with data-parallax drift at their own speed while scrolling */
-  function initParallax() {
-    var items = document.querySelectorAll("[data-parallax]");
-    if (!items.length) return;
-    var queued = false;
-    var update = function () {
-      queued = false;
-      var mid = window.innerHeight / 2;
-      items.forEach(function (node) {
-        var r = node.getBoundingClientRect();
-        var d = (r.top + r.height / 2 - mid) * parseFloat(node.getAttribute("data-parallax"));
-        node.style.translate = "0 " + d.toFixed(1) + "px";
-      });
-    };
-    window.addEventListener("scroll", function () { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
-    update();
-  }
-
-  /* A "View" bubble follows the mouse over clickable cards (mouse users only) */
-  function initCursorPill() {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-    var pill = el("div", { "class": "cursor-pill", "aria-hidden": "true" });
-    document.body.appendChild(pill);
-    var x = 0, y = 0, px = 0, py = 0, running = false;
-    var move = function () {
-      px += (x - px) * 0.2; py += (y - py) * 0.2;
-      pill.style.transform = "translate(" + (px + 16) + "px," + (py + 16) + "px)";
-      if (Math.abs(x - px) > 0.5 || Math.abs(y - py) > 0.5) requestAnimationFrame(move); else running = false;
-    };
-    document.addEventListener("mousemove", function (e) {
-      x = e.clientX; y = e.clientY;
-      var target = e.target.closest("a.card, a.work-card, a.work-tile, [data-cursor]");
-      if (target && !e.target.closest(".btn")) {
-        pill.textContent = target.getAttribute("data-cursor") || (target.target === "_blank" ? "Open ↗" : "View →");
-        if (!pill.classList.contains("is-on")) { px = x; py = y; }
-        pill.classList.add("is-on");
-      } else {
-        pill.classList.remove("is-on");
-      }
-      if (!running) { running = true; requestAnimationFrame(move); }
-    });
   }
 
   /* Fades the page out before following a link to another page on this site */
@@ -405,7 +354,7 @@
         layout: "month_view",
         hideEventTypeDetails: true,  // our own heading explains the booking; keeps the calendar from overflowing
         theme: "light",
-        cssVarsPerTheme: { light: { "cal-brand": "#A84B26" } }
+        cssVarsPerTheme: { light: { "cal-brand": "#9A5236" } }
       });
     }
 

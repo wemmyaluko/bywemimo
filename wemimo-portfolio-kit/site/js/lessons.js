@@ -29,7 +29,7 @@ var LESSONS = [
     title: "Articles: <em>the</em> vs. No Article",
     tags: { level: "B2", skill: "Grammar", length: "120 min", audience: "Adult ESL" },
     description: "Learners spot common article mistakes, learn three simple rules, practice with a worksheet, and then use the rules in a lively debate about education and money.",
-    stripe: "#A84B26",
+    stripe: "#9A5236",
     slides: { file: "https://prezi.com/page/mLCEYYWaCZKffifLHXmq2x/the-or-no-article/", bg: "#12343B", text: "#F7F2E8", icon: "#F2CC8F" },
     downloads: [
       { label: "Lesson plan", file: "assets/docs/Lesson-Plan-Articles.pdf" },
@@ -64,7 +64,7 @@ var LESSONS = [
     title: "Asking for a Raise by Email",
     tags: { level: "B2", skill: "Workplace writing", length: "50 min", audience: "Adult ESL" },
     description: "Learners draw a job card, write a polite email to their boss using <em>because</em>, <em>although</em>, and <em>unless</em>, and then reply to a partner's email as the supervisor.",
-    stripe: "#A84B26",
+    stripe: "#9A5236",
     slides: { file: "https://prezi.com/page/gjD7wrZBPe5PtXd5uXfJDk/asking-for-a-raise-by-email/", bg: "#2E1A3B", text: "#FBF6F1", icon: "#E39A5B" },
     downloads: [
       { label: "Lesson plan", file: "assets/docs/Lesson-Plan-Email.pdf" },
