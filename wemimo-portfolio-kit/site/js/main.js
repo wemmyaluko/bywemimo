@@ -354,7 +354,7 @@
         layout: "month_view",
         hideEventTypeDetails: true,  // our own heading explains the booking; keeps the calendar from overflowing
         theme: "light",
-        cssVarsPerTheme: { light: { "cal-brand": "#9A5236" } }
+        cssVarsPerTheme: { light: { "cal-brand": "#A84B26" } }
       });
     }
 
