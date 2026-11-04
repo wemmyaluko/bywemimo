@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <title>Write Your Way In: writing with all your languages</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3A2E27"/>
+      <stop offset="1" stop-color="#241D19"/>
+    </linearGradient>
+    <style>
+      .b { fill: none; stroke: #E9DCC8; stroke-width: 2; }
+      .t { font-family: Georgia, 'Times New Roman', serif; fill: #FAF7EF; font-size: 26px; text-anchor: middle; }
+      .ts { font-family: 'Segoe UI', Arial, sans-serif; fill: #FAF7EF; font-size: 24px; text-anchor: middle; }
+      .line { stroke: #CDBBA3; stroke-width: 2; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <circle cx="400" cy="330" r="190" fill="#E3C9A8" opacity="0.08"/>
+
+  <!-- Open notebook -->
+  <g transform="translate(250 250)">
+    <path d="M150 20 C110 4 50 0 0 8 L0 210 C50 202 110 206 150 222 Z" fill="#FAF7EF"/>
+    <path d="M150 20 C190 4 250 0 300 8 L300 210 C250 202 190 206 150 222 Z" fill="#F1E8DA"/>
+    <path d="M150 20 L150 222" stroke="#CDBBA3" stroke-width="2"/>
+    <g class="line">
+      <line x1="24" y1="52" x2="126" y2="56"/><line x1="24" y1="80" x2="126" y2="84"/>
+      <line x1="24" y1="108" x2="110" y2="111"/><line x1="24" y1="136" x2="126" y2="140"/>
+      <line x1="24" y1="164" x2="96" y2="166"/>
+      <line x1="174" y1="56" x2="276" y2="52"/><line x1="174" y1="84" x2="276" y2="80"/>
+      <line x1="174" y1="112" x2="258" y2="108"/>
+    </g>
+    <!-- pen -->
+    <g transform="translate(210 118) rotate(38)">
+      <rect x="0" y="-7" width="96" height="14" rx="3" fill="#A84B26"/>
+      <path d="M96 -7 L120 0 L96 7 Z" fill="#E3C9A8"/>
+      <rect x="-10" y="-7" width="12" height="14" rx="2" fill="#7E3A1F"/>
+    </g>
+  </g>
+
+  <!-- Speech bubbles: hello in many languages -->
+  <g>
+    <path class="b" d="M70 70 h170 a18 18 0 0 1 18 18 v44 a18 18 0 0 1 -18 18 h-120 l-22 22 v-22 h-28 a18 18 0 0 1 -18 -18 v-44 a18 18 0 0 1 18 -18 z"/>
+    <text class="t" x="155" y="120">Báwo ni?</text>
+  </g>
+  <g>
+    <path d="M300 40 h200 a18 18 0 0 1 18 18 v44 a18 18 0 0 1 -18 18 h-84 l-16 22 l-16 -22 h-84 a18 18 0 0 1 -18 -18 v-44 a18 18 0 0 1 18 -18 z" fill="#A84B26"/>
+    <text class="t" x="400" y="90" style="font-style:italic">Hello</text>
+  </g>
+  <g>
+    <path class="b" d="M560 70 h170 a18 18 0 0 1 18 18 v44 a18 18 0 0 1 -18 18 h-28 v22 l-22 -22 h-120 a18 18 0 0 1 -18 -18 v-44 a18 18 0 0 1 18 -18 z"/>
+    <text class="t" x="645" y="120">How far?</text>
+  </g>
+  <g>
+    <path class="b" d="M40 270 h150 a16 16 0 0 1 16 16 v40 a16 16 0 0 1 -16 16 h-30 l20 20 l-40 -20 h-100 a16 16 0 0 1 -16 -16 v-40 a16 16 0 0 1 16 -16 z"/>
+    <text class="t" x="115" y="316">Hola</text>
+  </g>
+  <g>
+    <path class="b" d="M610 270 h150 a16 16 0 0 1 16 16 v40 a16 16 0 0 1 -16 16 h-100 l-40 20 l20 -20 h-30 a16 16 0 0 1 -16 -16 v-40 a16 16 0 0 1 16 -16 z"/>
+    <text class="ts" x="685" y="315">你好</text>
+  </g>
+  <g>
+    <path class="b" d="M60 470 h160 a16 16 0 0 1 16 16 v40 a16 16 0 0 1 -16 16 h-160 a16 16 0 0 1 -16 -16 v-40 a16 16 0 0 1 16 -16 z"/>
+    <text class="t" x="140" y="516">Bonjour</text>
+  </g>
+  <g>
+    <path class="b" d="M580 470 h160 a16 16 0 0 1 16 16 v40 a16 16 0 0 1 -16 16 h-160 a16 16 0 0 1 -16 -16 v-40 a16 16 0 0 1 16 -16 z"/>
+    <text class="ts" x="660" y="515">مرحبا</text>
+  </g>
+
+  <!-- small accents -->
+  <g fill="#E3C9A8" opacity="0.55">
+    <circle cx="300" cy="200" r="3"/><circle cx="520" cy="210" r="3"/><circle cx="250" cy="520" r="3"/><circle cx="560" cy="540" r="3"/>
+  </g>
+</svg>

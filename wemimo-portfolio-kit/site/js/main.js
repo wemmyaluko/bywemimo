@@ -120,6 +120,23 @@
     });
   }
 
+  /* ---------- Newsletter sign-up (home page): posts to a Google Form in a hidden frame ---------- */
+  document.querySelectorAll(".nl-form").forEach(function (form) {
+    var frame = document.querySelector('iframe[name="' + form.target + '"]');
+    var note = form.querySelector(".nl-note");
+    var button = form.querySelector('button[type="submit"]');
+    form.addEventListener("submit", function () {
+      note.textContent = "Signing you up…";
+      button.disabled = true;
+      var done = function () {
+        form.reset();
+        button.disabled = false;
+        note.textContent = "Thank you for subscribing! You'll hear from me soon.";
+      };
+      if (frame) frame.addEventListener("load", done, { once: true }); else setTimeout(done, 1500);
+    });
+  });
+
   /* ---------- Booking calendar (Contact page) ---------- */
   var booking = document.getElementById("cal-booking");
   if (booking) initBooking(booking);
